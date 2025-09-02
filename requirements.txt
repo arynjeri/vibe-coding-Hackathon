@@ -1,11 +1,9 @@
 Flask
 Flask-SQLAlchemy
+psycopg2-binary
+python-dotenv
 Flask-Login
 Werkzeug
 requests
-transformers
-torch
-python-dotenv
-cryptography
-psycopg2-binary
 gunicorn
+cryptography
