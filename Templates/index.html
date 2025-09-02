@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Flashcards & Quiz</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <h1>AI Flashcards & Quiz Generator</h1>
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  {% if not current_user.is_authenticated %}
+  <!-- ================= AUTH PAGE ================= -->
+  <section class="auth-page">
+    <div id="loginForm">
+      <h2>Login</h2>
+      <form method="POST" action="{{ url_for('login') }}">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+      <p>Don’t have an account? 
+        <a href="#" onclick="showRegister()">Register here</a>
+      </p>
+    </div>
+
+    <div id="registerForm" style="display:none;">
+      <h2>Register</h2>
+      <form method="POST" action="{{ url_for('register') }}">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Register</button>
+      </form>
+      <p>Already have an account? 
+        <a href="#" onclick="showLogin()">Login here</a>
+      </p>
+    </div>
+  </section>
+  {% else %}
+  <!-- ================= MAIN PAGE ================= -->
+  <section class="main-page">
+    <p>Welcome, {{ current_user.email }} 🎉</p>
+    <a href="{{ url_for('logout') }}"><button>Logout</button></a>
+
+    <!-- Flashcard/Quiz Generator -->
+    <h2>Generate Content</h2>
+    <textarea id="inputText" placeholder="Paste text here..."></textarea>
+    
+    <button onclick="generateContent('flashcards')">Generate Flashcards</button>
+    <button onclick="generateContent('quiz')">Generate Quiz</button>
+
+    <!-- Flashcards output -->
+    <div id="flashcards"></div>
+
+    <!-- Quiz output -->
+    <div id="quiz"></div>
+
+    <!-- Subscription -->
+    {% if not current_user.subscribed %}
+    <section>
+      <h2>Subscription</h2>
+      <p>You have {{ 5 - current_user.prompts_used }} free prompts left.</p>
+      <form method="POST" action="{{ url_for('subscribe') }}">
+        <button type="submit">Subscribe (Ksh 299/month)</button>
+      </form>
+    </section>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

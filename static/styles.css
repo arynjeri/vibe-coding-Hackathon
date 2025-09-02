@@ -1,0 +1,266 @@
+/* Global reset & font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #f4f7fb;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* Heading */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #2d6cdf;
+}
+
+/* Flash messages */
+.flashes {
+  list-style: none;
+  margin: 10px auto;
+  padding: 10px;
+  max-width: 500px;
+}
+
+.flashes li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.flashes .success { background: #d4edda; color: #155724; }
+.flashes .error { background: #f8d7da; color: #721c24; }
+.flashes .info { background: #cce5ff; color: #004085; }
+
+/* Sections */
+section {
+  background: #fff;
+  padding: 20px;
+  margin: 15px auto;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  max-width: 600px;
+}
+
+/* Forms */
+input, textarea, button {
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Buttons */
+button {
+  background: #2d6cdf;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover:not(:disabled) {
+  background: #1b4fb8;
+}
+
+/* Disabled state */
+button:disabled, textarea:disabled {
+  background: #e0e0e0;
+  cursor: not-allowed;
+  color: #777;
+}
+
+.disabled-msg {
+  font-size: 0.9rem;
+  color: #c00;
+  margin-top: 5px;
+}
+
+/* Flashcards output */
+/* Flashcards container */
+#flashcards {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+/* Each flashcard */
+.flashcard {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.flashcard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Flashcard content */
+.flashcard h3 {
+  font-size: 1.1rem;
+  color: #2d6cdf;
+  margin-bottom: 8px;
+}
+
+.flashcard p {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.4;
+}
+
+
+/* Auth forms */
+.auth {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.auth div {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 300px;
+  text-align: center;
+}
+
+.auth h2 {
+  margin-top: 0;
+}
+
+.auth form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth a {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+.auth a:hover {
+  text-decoration: underline;
+}
+
+/* Quiz container */
+#quiz {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* Each question card */
+.quiz-question {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Question text */
+.quiz-question h3 {
+  font-size: 1.1rem;
+  color: #1b4fb8;
+  margin-bottom: 12px;
+}
+
+/* Answer choices */
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quiz-option {
+  background: #f4f7fb;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.quiz-option:hover {
+  background: #e8f0fe;
+  border-color: #2d6cdf;
+}
+
+/* Disabled state */
+.quiz-option.disabled {
+  background: #eee;
+  color: #777;
+  cursor: not-allowed;
+}
+
+/* Correct & Wrong feedback */
+.quiz-option.correct {
+  background: #d4edda;
+  border-color: #28a745;
+  color: #155724;
+}
+
+.quiz-option.wrong {
+  background: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
+}
+
+
+/* Responsive */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  section {
+    padding: 15px;
+  }
+}
+/* Mode selector buttons */
+.mode-selector {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+}
+
+.mode-selector button {
+  flex: 1;
+  min-width: 150px;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 10px;
+}
+.hidden {
+  display: none;
+  color: red;
+  margin-top: 10px;
+}
+
+

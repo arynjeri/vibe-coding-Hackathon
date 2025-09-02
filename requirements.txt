@@ -1,0 +1,12 @@
+Flask
+Flask-SQLAlchemy
+PyMySQL
+transformers
+python-dotenv
+cryptography
+Flask-Login
+Werkzeug
+cryptography 
+torch
+requests
+flwave
