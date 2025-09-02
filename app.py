@@ -215,5 +215,8 @@ def verify():
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
+    with app.app_context():
+        db.create_all()   # ✅ creates tables (User, Flashcard, etc.)
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=True)
+
 
