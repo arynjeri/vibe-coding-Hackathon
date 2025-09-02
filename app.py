@@ -3,14 +3,18 @@ import requests
 from flask import Flask, request, jsonify, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
-    LoginManager, UserMixin, login_user, login_required,
-    logout_user, current_user
+    LoginManager,
+    UserMixin,
+    login_user,
+    login_required,
+    logout_user,
+    current_user
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from huggingface_ai import generate_flashcards
-load_dotenv()
 
+load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
@@ -20,9 +24,9 @@ password = os.getenv("DB_PASSWORD")
 host = os.getenv("DB_HOST")
 port = os.getenv("DB_PORT")
 dbname = os.getenv("DB_NAME")
+
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}"
 db = SQLAlchemy(app)
-
 
 # ---- Login manager ----
 login_manager = LoginManager()
@@ -40,6 +44,7 @@ def unauthorized():
 # ---- Paystack ----
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 PAYSTACK_URL = "https://api.paystack.co/transaction/initialize"
+
 if not PAYSTACK_SECRET_KEY:
     raise RuntimeError("⚠️ Missing PAYSTACK_SECRET_KEY in .env")
 
@@ -49,12 +54,14 @@ class Flashcard(db.Model):
     question = db.Column(db.String(255))
     answer = db.Column(db.String(255))
 
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     prompts_used = db.Column(db.Integer, default=0)
     subscribed = db.Column(db.Boolean, default=False)
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -64,6 +71,7 @@ def load_user(user_id):
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route("/register", methods=["POST"])
 def register():
@@ -80,9 +88,9 @@ def register():
     )
     db.session.add(new_user)
     db.session.commit()
-
     flash("Registration successful! Please log in.", "success")
     return redirect(url_for("index"))
+
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -98,12 +106,14 @@ def login():
     flash("Logged in successfully!", "success")
     return redirect(url_for("index"))
 
+
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     flash("Logged out successfully!", "info")
     return redirect(url_for("index"))
+
 
 @app.route("/generate", methods=["POST"])
 @login_required
@@ -145,7 +155,8 @@ def generate():
 
     else:
         return jsonify({"error": "Invalid mode"}), 400
-    
+
+
 @app.route("/subscribe", methods=["POST"])
 @login_required
 def subscribe():
@@ -157,7 +168,6 @@ def subscribe():
         "currency": "KES",  # ✅ use "KES" instead of "KSH"
         "callback_url": "http://127.0.0.1:5000/verify"
     }
-
     headers = {
         "Authorization": f"Bearer {PAYSTACK_SECRET_KEY}",
         "Content-Type": "application/json"
@@ -214,9 +224,8 @@ def verify():
 
     return redirect(url_for("index"))
 
+
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()   # ✅ creates tables (User, Flashcard, etc.)
+        db.create_all()  # ✅ creates tables (User, Flashcard, etc.)
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=True)
-
-
