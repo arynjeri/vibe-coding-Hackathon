@@ -11,3 +11,4 @@ torch
 requests
 flwave
 psycopg2-binary
+gunicorn
